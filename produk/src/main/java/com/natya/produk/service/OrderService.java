@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.natya.produk.repository.OrderRepository;
+
+import jakarta.transaction.Transactional;
+
 import com.natya.produk.model.Order;
 
 @Service
@@ -30,7 +33,8 @@ public class OrderService {
         orderRepository.deleteById(id);
     }
 
-    public void deleteByPelangganId(Integer pelangganId) {
-        orderRepository.deleteByPelangganId(pelangganId);
+   @Transactional // Wajib ditambahkan agar proses delete diizinkan oleh database
+    public void hapusOrderByPelangganId(Long pelangganId) {
+    orderRepository.deleteByPelangganId(pelangganId);
     }
 }

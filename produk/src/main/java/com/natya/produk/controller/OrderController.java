@@ -38,10 +38,9 @@ public class OrderController {
                 return ResponseEntity.ok(createdOrder);
         }
 
-        @DeleteMapping("/{id}")
-        public ResponseEntity<?> deleteOrder(@PathVariable Long id) {
-                orderService.deleteOrder(id);
-                return ResponseEntity.noContent().build();
+        @DeleteMapping("/pelanggan/{pelangganId}")
+        public String hapusBerdasarkanPelanggan(@PathVariable Long pelangganId) {
+        orderService.hapusOrderByPelangganId(pelangganId);
+        return "Semua order milik pelanggan dengan ID " + pelangganId + " berhasil dihapus!";
         }
-
 }
