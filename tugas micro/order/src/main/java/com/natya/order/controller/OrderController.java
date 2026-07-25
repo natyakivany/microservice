@@ -1,0 +1,54 @@
+package com.natya.order.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.natya.order.model.Order;
+import com.natya.order.service.OrderService;
+import com.natya.order.vo.ResponseTemplate;
+
+@RestController
+@RequestMapping("/api/orders")
+public class OrderController {
+
+        @Autowired
+        private OrderService orderService;
+
+        @GetMapping
+        public ResponseEntity<?> getAllOrders() {
+                return ResponseEntity.ok(orderService.getAllOrders());
+        }
+
+        @GetMapping("/{id}")
+        public ResponseEntity<?> getOrderById(@PathVariable Long id) {
+               Order order = orderService.getOrderById(id);
+               return order != null ? ResponseEntity.ok(order) : ResponseEntity.notFound().build();
+      
+        }
+        @GetMapping("/produk/{id}")
+        public List<ResponseTemplate> getOrderWithProdukById(@PathVariable("id") long id) {
+                return orderService.getOrderWithPodukById(id);
+        }
+                
+
+        @PostMapping
+        public ResponseEntity<?> createOrder(@RequestBody Order order) {
+                Order createdOrder = orderService.createOrder(order);
+                return ResponseEntity.ok(createdOrder);
+        }
+
+        @DeleteMapping("/pelanggan/{pelangganId}")
+        public String hapusBerdasarkanPelanggan(@PathVariable Long pelangganId) {
+        orderService.hapusOrderByPelangganId(pelangganId);
+        return "Semua order milik pelanggan dengan ID " + pelangganId + " berhasil dihapus!";
+        }
+}
