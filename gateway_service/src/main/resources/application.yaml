@@ -1,0 +1,17 @@
+server:
+  port: 9000
+
+
+
+spring:
+  application:
+    name: gateway_service
+
+cloud:
+  gateway:
+    server:
+      webmvc:
+        routes:
+          - id: PRODUK
+            uri: lb://PRODUK
+            predicates
